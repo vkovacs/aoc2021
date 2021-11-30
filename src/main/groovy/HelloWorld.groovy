@@ -1,2 +1,5 @@
-def greeting = "Hello World"
-println(greeting)
+def greeter(String name) {
+    "Hello World $name"
+}
+
+println(greeter("asd"))
