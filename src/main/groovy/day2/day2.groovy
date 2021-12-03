@@ -13,8 +13,8 @@ static def movement(String movementString) {
 
 static def positionChange(Tuple movement) {
     def command = movement.get(0)
-    def value = movement.get(1)
-    
+    def value = movement.get(1) as int
+
     switch (command) {
         case "forward": return new Tuple(value, 0)
         case "down": return new Tuple(0, value)
@@ -42,7 +42,7 @@ part1()
 
 static def positionChangeWithAim(Tuple movement, def aim) {
     def command = movement.get(0)
-    def value = movement.get(1)
+    def value = movement.get(1) as int
 
     switch (command) {
         case "forward": return new Tuple(value, aim * value, 0)
