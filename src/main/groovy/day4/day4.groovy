@@ -1,26 +1,26 @@
 package day4
 
-def inputFile = new File("../../resources/day4/input-test")
+def inputFile = new File("../../resources/day4/input")
 def inputLines = inputFile.readLines()
 
-static List<Integer> drawnNumbers(String line) {
+static List<Integer> markedNumbers(String line) {
     return line.split(",")
             .collect { it as int }
 }
 
-static List<Matrix> boards(List<String> inputLines) {
-    List<Matrix> boards = []
+static List<Board> boards(List<String> inputLines) {
+    List<Board> boards = []
 
-    Matrix board = new Matrix()
+    Board board = new Board()
     for (def row : inputLines) {
         if (!row.isEmpty()) {
             board.add(row.strip().split(/[ ]+/)
                     .collect {
-                        new ChoosableNumber(number: it as int, isChoosen: false)
+                        new MarkableNumber(number: it as int, isMarked: false)
                     })
         } else {
             boards.add(board)
-            board = new Matrix()
+            board = new Board()
         }
     }
 
@@ -31,5 +31,21 @@ static List<Matrix> boards(List<String> inputLines) {
     return boards
 }
 
-def drawnNumbers = drawnNumbers(inputLines.get(0))
+def drawnNumbers = markedNumbers(inputLines.get(0))
 def boards = boards(inputLines.subList(2, inputLines.size()))
+
+Board finishedBoard
+
+numberRegisteringLoop:
+for (def markedNumber : drawnNumbers) {
+    for (def board : boards) {
+        if (board.register(markedNumber)) {
+            finishedBoard = board
+            break numberRegisteringLoop
+        }
+    }
+}
+
+assert finishedBoard != null
+
+println(finishedBoard.score())
