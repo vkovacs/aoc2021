@@ -4,6 +4,7 @@ class Board {
     static final int BOARD_SIZE = 5
     private List<List<MarkableNumber>> matrix = []
     private def winningNumber = -1
+    def winningOrder = -1
 
     void add(List<MarkableNumber> row) {
         matrix.add(row)

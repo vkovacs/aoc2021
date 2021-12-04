@@ -31,21 +31,49 @@ static List<Board> boards(List<String> inputLines) {
     return boards
 }
 
-def drawnNumbers = markedNumbers(inputLines.get(0))
+def markedNumbers = markedNumbers(inputLines.get(0))
 def boards = boards(inputLines.subList(2, inputLines.size()))
 
-Board finishedBoard
+//par1
+static int part1(List<Board> boards, List<Integer> markedNumbers) {
+    Board finishedBoard
 
-numberRegisteringLoop:
-for (def markedNumber : drawnNumbers) {
-    for (def board : boards) {
-        if (board.register(markedNumber)) {
-            finishedBoard = board
-            break numberRegisteringLoop
+    numberRegisteringLoop:
+    for (def markedNumber : markedNumbers) {
+        for (def board : boards) {
+            if (board.register(markedNumber)) {
+                finishedBoard = board
+                break numberRegisteringLoop
+            }
         }
     }
+
+    assert finishedBoard != null
+
+    return finishedBoard.score()
 }
 
-assert finishedBoard != null
+println part1(boards, markedNumbers)
 
-println(finishedBoard.score())
+//part2
+static List<Board> winningOrders(List<Board> boards, List<Integer> drawnNumbers) {
+    List<Board> boardsWithWinningNumbers = boards.collect()
+    int winningOrder = 0
+    for (def markedNumber : drawnNumbers) {
+        for (def board : boardsWithWinningNumbers) {
+            if (!board.isFinished()) {
+                if (board.register(markedNumber)) {
+                    board.winningOrder = winningOrder
+                    winningOrder++
+                }
+            }
+        }
+    }
+    return boardsWithWinningNumbers
+}
+
+static def part2(List<Board> boards, List<Integer> markedNumbers) {
+    winningOrders(boards, markedNumbers).max() { it.winningOrder }.score()
+}
+
+println part2(boards, markedNumbers)
