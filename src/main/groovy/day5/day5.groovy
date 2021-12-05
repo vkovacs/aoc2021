@@ -16,19 +16,23 @@ inputLines.collect {
 
 //part1
 
-List<Vent> horizontalOrVerticalVents = vents.findAll {
-    it.x1 == it.x2 || it.y1 == it.y2
-}
 
 
 
-OceanMap oceanMap = new OceanMap()
 
-horizontalOrVerticalVents.each {
-    oceanMap.addVent(it)
-}
+int part1(List<Vent> vents) {
+    List<Vent> horizontalOrVerticalVents = vents.findAll {
+        it.x1 == it.x2 || it.y1 == it.y2
+    }
+
+    OceanMap oceanMap = new OceanMap()
+
+    horizontalOrVerticalVents.each {
+        oceanMap.addVent(it)
+    }
 //println(oceanMap)
 
-def intersectionCount = oceanMap.flatMap().count { it > 1 }
-println(intersectionCount)
+    oceanMap.flatMap().count { it > 1 }
+}
 
+println part1(vents)

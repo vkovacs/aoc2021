@@ -45,13 +45,13 @@ class OceanMap {
 
     @Override
     String toString() {
-        String result = ""
+        StringBuilder result = new StringBuilder(MAP_SIZE*MAP_SIZE)
         for (i in 0..<MAP_SIZE) {
             for (j in 0..<MAP_SIZE) {
-                result += map[j][i] + " "
+                result.append(map[j][i] + " ")
             }
-            result += LineSeparator.SYSTEM
+            result.append(LineSeparator.SYSTEM)
         }
-        return result
+        return result.toString()
     }
 }
