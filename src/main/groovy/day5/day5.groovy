@@ -16,11 +16,7 @@ inputLines.collect {
 
 //part1
 
-
-
-
-
-int part1(List<Vent> vents) {
+static int part1(List<Vent> vents) {
     List<Vent> horizontalOrVerticalVents = vents.findAll {
         it.x1 == it.x2 || it.y1 == it.y2
     }
