@@ -6,8 +6,11 @@ import static java.lang.Math.max
 import static java.lang.Math.min
 
 class OceanMap {
-    public static final int MAP_SIZE = 1000 + 1
-    int[][] map = new int[MAP_SIZE][MAP_SIZE]
+    int[][] map
+
+    OceanMap(int size) {
+        map = new int[size][size]
+    }
 
     void addVent(Vent vent) {
         if (vent.x1 == vent.x2) {
@@ -17,6 +20,7 @@ class OceanMap {
                 map[x][y] += 1
             }
         }
+
         if (vent.y1 == vent.y2) {
             def (int y, int minX, int maxX) = [vent.y1, min(vent.x1, vent.x2), max(vent.x1, vent.x2)]
 
@@ -24,12 +28,27 @@ class OceanMap {
                 map[x][y] += 1
             }
         }
+
+        if (vent.x1 != vent.x2 && vent.y1 != vent.y2) {
+            int xDirection = vent.x1 < vent.x2 ? 1 : -1
+            int yDirection = vent.y1 < vent.y2 ? 1 : -1
+
+            int x = vent.x1
+            int y = vent.y1
+            map[x][y] += 1
+
+            while (x != vent.x2 && y != vent.y2) {
+                x += xDirection
+                y += yDirection
+                map[x][y] += 1
+            }
+        }
     }
 
     List<Integer> flatMap() {
         def list = []
-        for (i in 0..<MAP_SIZE) {
-            for (j in 0..<MAP_SIZE) {
+        for (i in 0..<map.length) {
+            for (j in 0..<map.length) {
                 list.add(map[i][j])
             }
         }
@@ -38,9 +57,9 @@ class OceanMap {
 
     @Override
     String toString() {
-        StringBuilder result = new StringBuilder(MAP_SIZE * MAP_SIZE)
-        for (i in 0..<MAP_SIZE) {
-            for (j in 0..<MAP_SIZE) {
+        StringBuilder result = new StringBuilder(map.length * map.length)
+        for (i in 0..<map.length) {
+            for (j in 0..<map.length) {
                 result.append(map[j][i] + " ")
             }
             result.append(LineSeparator.SYSTEM)
