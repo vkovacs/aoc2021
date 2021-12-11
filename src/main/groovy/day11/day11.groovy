@@ -1,11 +1,9 @@
 package day11
 
 import day9.Position
-import groovy.transform.Field
 
 def inputFile = new File("../../resources/day11/input")
 
-@Field
 List<List<Integer>> cavern = []
 
 inputFile.eachLine {
@@ -14,7 +12,7 @@ inputFile.eachLine {
     })
 }
 
-Set<Position> increaseAll() {
+Set<Position> increaseAll(List<List<Integer>> cavern) {
     Set<Position> willFlash = []
     for (i in 0..<cavern.size()) {
         for (j in 0..<cavern[0].size()) {
@@ -25,7 +23,7 @@ Set<Position> increaseAll() {
     return willFlash
 }
 
-int flash(Set<Position> willFlash, Set<Position> alreadyFlashed) {
+int flash(List<List<Integer>> cavern, Set<Position> willFlash, Set<Position> alreadyFlashed) {
     Set<Position> nextWillFlashCandidates = []
     willFlash.each {
         alreadyFlashed.add(it)
@@ -42,11 +40,11 @@ int flash(Set<Position> willFlash, Set<Position> alreadyFlashed) {
     if (nextWillFlashCandidates.isEmpty()) {
         return willFlash.size()
     } else {
-        return willFlash.size() + flash(nextWillFlashCandidates, alreadyFlashed)
+        return willFlash.size() + flash(cavern, nextWillFlashCandidates, alreadyFlashed)
     }
 }
 
-void resetFlashed() {
+void resetFlashed(List<List<Integer>> cavern) {
     for (i in 0..<cavern.size()) {
         for (j in 0..<cavern[0].size()) {
             if (cavern[i][j] > 9) cavern[i][j] = 0
@@ -72,14 +70,30 @@ static Set<Position> adjacentLocations(int row, int col) {
     return adjacentLocations
 }
 
-def part1() {
+def part1(List<List<Integer>> cavern) {
     int flashCounter = 0
     100.times {
-        def willFlash = increaseAll()
-        flashCounter += flash(willFlash, new HashSet<Position>())
-        resetFlashed()
+        def willFlash = increaseAll(cavern)
+        flashCounter += flash(cavern, willFlash, new HashSet<Position>())
+        resetFlashed(cavern)
     }
     flashCounter
 }
-println part1()
 
+println part1(cavern.collect {
+    it.collect()
+})
+def part2(List<List<Integer>> cavern) {
+    long step = 0
+    while (cavern.flatten().sum() != 0) {
+        def willFlash = increaseAll(cavern)
+        flash(cavern, willFlash, new HashSet<Position>())
+        resetFlashed(cavern)
+        step++
+    }
+    step
+}
+
+println part2(cavern.collect {
+    it.collect()
+})
