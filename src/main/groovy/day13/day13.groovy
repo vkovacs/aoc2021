@@ -51,3 +51,24 @@ println part1(positions, folds[0])
 int part1(Set<Position> positions, Tuple fold) {
     this.fold(positions, fold).size()
 }
+
+def part2(Set<Position> positions, List<Tuple> folds) {
+    folds.forEach {
+        positions = this.fold(positions, it)
+    }
+
+    int maxCol = positions.max { it.col }.col
+    int maxRow = positions.max { it.row }.row
+
+    StringBuilder sb = new StringBuilder()
+    for (i in 0..maxRow) {
+        for (j in 0..maxCol) {
+            if (positions.contains(new Position(col: j, row: i))) sb.append("#") else sb.append(".")
+        }
+         sb.append("\n")
+    }
+
+    return sb.toString()
+}
+
+println part2(positions, folds)
