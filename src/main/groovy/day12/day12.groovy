@@ -1,6 +1,5 @@
 package day12
 
-import groovy.transform.Field
 import groovyjarjarantlr4.v4.misc.Graph
 
 def inputFile = new File("../../resources/day12/input")
