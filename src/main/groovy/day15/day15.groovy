@@ -24,14 +24,14 @@ def part1(def cavern) {
 
     cost[0][0] = 0
 
-    def notVisited = [] as Set
+    Set<Position> notVisited = [] as Set
     for (i in 0..<MAX_COL) {
         for (j in 0..<MAX_ROW) {
             notVisited.add(new Position(col: i, row: j))
         }
     }
     while (!notVisited.isEmpty()) {
-        Position u = minDistancePoint(cost, notVisited)
+        Position u = minDistancePoint(cost, notVisited.findAll {cost[it.col][it.row] < Integer.MAX_VALUE})
         notVisited.remove(u)
         def neighbours = adjacentLocations(u.col, u.row, MAX_COL, MAX_ROW)
         for (def neighbour : neighbours) {
@@ -41,6 +41,8 @@ def part1(def cavern) {
                 cost[neighbour.col][neighbour.row] = newDistance
             }
         }
+
+        if (notVisited.size() % 100 == 0) println(notVisited.size())
     }
     cost[MAX_COL - 1][MAX_ROW - 1]
 }
@@ -57,4 +59,40 @@ Position minDistancePoint(int[][] cost, Set<Position> positions) {
         }
     }
     minPosition
+}
+
+def part2(def cavern) {
+    final int MAX_COL = cavern.size()
+    final int MAX_ROW = cavern[0].size()
+
+    int[][] largeCavern = [[0] * MAX_COL * 5] * MAX_ROW * 5
+
+    for (i in 0..<MAX_ROW) {
+        for (j in 0..<MAX_COL) {
+            largeCavern[i][j] = cavern[i][j]
+            largeCavern[i + MAX_ROW][j] = increase(cavern[i][j])
+            largeCavern[i + MAX_ROW * 2][j] = increase(increase(cavern[i][j]))
+            largeCavern[i + MAX_ROW * 3][j] = increase(increase(increase(cavern[i][j])))
+            largeCavern[i + MAX_ROW * 4][j] = increase(increase(increase(increase(cavern[i][j]))))
+        }
+    }
+
+    for (i in 0..<MAX_ROW * 5) {
+        for (j in 0..<MAX_COL) {
+            largeCavern[i][j + MAX_COL] = increase(largeCavern[i][j])
+            largeCavern[i][j + MAX_COL * 2] = increase(increase(largeCavern[i][j]))
+            largeCavern[i][j + MAX_COL * 3] = increase(increase(increase(largeCavern[i][j])))
+            largeCavern[i][j + MAX_COL * 4] = increase(increase(increase(increase(largeCavern[i][j]))))
+        }
+    }
+
+    largeCavern
+}
+
+println part1(part2(cavern))
+
+int increase(int n) {
+    ++n
+    if (n > 9) n = 1
+    n
 }
