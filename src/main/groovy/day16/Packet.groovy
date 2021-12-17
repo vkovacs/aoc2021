@@ -23,6 +23,17 @@ class Packet {
         l
     }
 
+    long eval() {
+        evalSubPackets(this)
+    }
+
+    long evalSubPackets(Packet packet) {
+        switch (packet.header.typeID) {
+            case 4: return packet.value
+            case 0: return subPackets.sum {evalSubPackets(it)} as long
+        }
+    }
+
     @ToString
     @EqualsAndHashCode
     static class Header {
