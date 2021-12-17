@@ -70,5 +70,15 @@ class ParserTest {
     void evalProduct() {
         assert 54L == parser.parseMessage(parser.hexToBin("04005AC33890")).get(0).eval()
     }
+
+    @Test
+    void evalMin() {
+        assert 7L == parser.parseMessage(parser.hexToBin("880086C3E88112")).get(0).eval()
+    }
+
+    @Test
+    void evalMax() {
+        assert 9L == parser.parseMessage(parser.hexToBin("CE00C43D881120")).get(0).eval()
+    }
 }
 

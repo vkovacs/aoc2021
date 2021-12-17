@@ -34,6 +34,12 @@ class Packet {
             case 1: return subPackets.collect {
                 evalSubPackets(it)
             }.inject(1, { sum, value -> sum * value }) as long
+            case 2: return subPackets.collect {
+                evalSubPackets(it)
+            }.min()
+            case 3: return subPackets.collect {
+                evalSubPackets(it)
+            }.max()
 
         }
     }
