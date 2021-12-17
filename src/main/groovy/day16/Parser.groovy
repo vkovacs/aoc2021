@@ -33,6 +33,7 @@ class Parser {
                 } else {
                     def childrenCount = Integer.parseInt(message.substring(7, 18),2)
                     def children = parsePackets(message.substring(18), childrenCount)
+                    remainingChildrenCount--
                     int length = children.flatten().sum { it.length } + 18
                     def packet = new Packet(header: header, length: length, subPackets: children)
                     siblings << packet
