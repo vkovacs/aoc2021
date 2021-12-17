@@ -91,7 +91,7 @@ class ParserTest {
         assert 0L == parser.parseMessage(parser.hexToBin("F600BC2D8F")).eval()
     }
 
-    //@Test
+    @Test
     void eval() {
         assert 1L == parser.parseMessage(parser.hexToBin("9C0141080250320F1802104A08")).eval()
     }

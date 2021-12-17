@@ -30,19 +30,19 @@ class Packet {
     long evalSubPackets(Packet packet) {
         switch (packet.header.typeID) {
             case 4: return packet.value
-            case 0: return subPackets.sum { evalSubPackets(it) } as long
-            case 1: return subPackets.collect {
+            case 0: return packet.subPackets.collect { evalSubPackets(it) }.sum() as long
+            case 1: return packet.subPackets.collect {
                 evalSubPackets(it)
             }.inject(1, { sum, value -> sum * value }) as long
-            case 2: return subPackets.collect {
+            case 2: return packet.subPackets.collect {
                 evalSubPackets(it)
             }.min()
-            case 3: return subPackets.collect {
+            case 3: return packet.subPackets.collect {
                 evalSubPackets(it)
             }.max()
-            case 5: return (evalSubPackets(subPackets[0]) > evalSubPackets(subPackets[1]) ? 1 : 0) as long
-            case 6: return (evalSubPackets(subPackets[0]) < evalSubPackets(subPackets[1]) ? 1 : 0) as long
-            case 7: return (evalSubPackets(subPackets[0]) == evalSubPackets(subPackets[1]) ? 1 : 0) as long
+            case 5: return (evalSubPackets(packet.subPackets[0]) > evalSubPackets(packet.subPackets[1]) ? 1 : 0) as long
+            case 6: return (evalSubPackets(packet.subPackets[0]) < evalSubPackets(packet.subPackets[1]) ? 1 : 0) as long
+            case 7: return (evalSubPackets(packet.subPackets[0]) == evalSubPackets(packet.subPackets[1]) ? 1 : 0) as long
         }
     }
 
