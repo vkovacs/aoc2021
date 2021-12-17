@@ -90,5 +90,10 @@ class ParserTest {
     void evalLesserThan() {
         assert 0L == parser.parseMessage(parser.hexToBin("F600BC2D8F")).get(0).eval()
     }
+
+    @Test
+    void eval() {
+        assert 1L == parser.parseMessage(parser.hexToBin("9C0141080250320F1802104A08")).get(0).eval()
+    }
 }
 

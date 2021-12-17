@@ -42,7 +42,7 @@ class Packet {
             }.max()
             case 5: return (evalSubPackets(subPackets[0]) > evalSubPackets(subPackets[1]) ? 1 : 0) as long
             case 6: return (evalSubPackets(subPackets[0]) < evalSubPackets(subPackets[1]) ? 1 : 0) as long
-
+            case 7: return (evalSubPackets(subPackets[0]) == evalSubPackets(subPackets[1]) ? 1 : 0) as long
         }
     }
 
