@@ -2,10 +2,14 @@ package day16
 
 
 class Parser {
-    List<Packet> parseMessage(String message) {
+    Packet parseMessage(String message) {
+        parsePackets(message, Integer.MAX_VALUE)[0]
+    }
+
+    List<Packet> parsePackets(String message, int remainingChildrenCount) {
         List<Packet> siblings = []
 
-        while (!message.isEmpty() && message.count("0") != message.length()) {
+        while (!message.isEmpty() && message.count("0") != message.length() && remainingChildrenCount > 0) {
             def header = Packet.Header.of(message)
             if (header.isLiteral()) {
                 def literal = literal(message)
@@ -14,18 +18,21 @@ class Parser {
                 def value = literal[1]
                 def packet = new Packet(header: literalHeader, length: literalMessage.length(), value: value)
                 siblings << packet
+                remainingChildrenCount--
                 message = message.substring(packet.length)
             } else {
                 if (isLengthTypeId0(message)) {
                     int subPacketsLength = Integer.parseInt(message.substring(7, 22), 2)
                     def subPacketsBinMerged = message.substring(22, 22 + subPacketsLength)
-                    def children = parseMessage(subPacketsBinMerged)
+                    def children = parsePackets(subPacketsBinMerged, remainingChildrenCount)
                     int length = children.flatten().sum { it.length } + 22
                     def packet = new Packet(header: header, length: length, subPackets: children)
+                    remainingChildrenCount--
                     siblings << packet
                     message = message.substring(length)
                 } else {
-                    def children = parseMessage(message.substring(18))
+                    def childrenCount = Integer.parseInt(message.substring(7, 18),2)
+                    def children = parsePackets(message.substring(18), childrenCount)
                     int length = children.flatten().sum { it.length } + 18
                     def packet = new Packet(header: header, length: length, subPackets: children)
                     siblings << packet
