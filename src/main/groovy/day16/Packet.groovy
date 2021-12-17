@@ -33,7 +33,7 @@ class Packet {
             case 0: return subPackets.sum { evalSubPackets(it) } as long
             case 1: return subPackets.collect {
                 evalSubPackets(it)
-            }.inject(0, { sum, value -> sum * value }) as long
+            }.inject(1, { sum, value -> sum * value }) as long
 
         }
     }

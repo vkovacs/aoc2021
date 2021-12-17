@@ -66,8 +66,9 @@ class ParserTest {
         assert 3L == parser.parseMessage(parser.hexToBin("C200B40A82")).get(0).eval()
     }
 
+    @Test
     void evalProduct() {
-        assert 53L == parser.parseMessage(parser.hexToBin("04005AC33890")).get(0).eval()
+        assert 54L == parser.parseMessage(parser.hexToBin("04005AC33890")).get(0).eval()
     }
 }
 
