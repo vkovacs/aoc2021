@@ -9,8 +9,14 @@ Parser parser = new Parser()
 
 def message = inputFile.readLines().get(0)
 
-def part1(String message) {
-    parser.parsePackets(parser.hexToBin(message)).get(0).sum()
+def packet = parser.parsePacket(parser.hexToBin(message))
+
+def part1(Packet packet) {
+    packet.sum()
 }
 
-println part1(message)
+def part2(Packet packet) {
+    packet.eval()
+}
+println part1(packet)
+println part2(packet)

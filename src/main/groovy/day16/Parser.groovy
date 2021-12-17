@@ -2,11 +2,11 @@ package day16
 
 
 class Parser {
-    Packet parseMessage(String message) {
+    Packet parsePacket(String message) {
         parsePackets(message, Integer.MAX_VALUE)[0]
     }
 
-    List<Packet> parsePackets(String message, int remainingChildrenCount) {
+    private List<Packet> parsePackets(String message, int remainingChildrenCount) {
         List<Packet> siblings = []
 
         while (!message.isEmpty() && message.count("0") != message.length() && remainingChildrenCount > 0) {

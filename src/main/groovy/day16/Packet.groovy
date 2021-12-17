@@ -27,7 +27,7 @@ class Packet {
         evalSubPackets(this)
     }
 
-    long evalSubPackets(Packet packet) {
+    private long evalSubPackets(Packet packet) {
         switch (packet.header.typeID) {
             case 4: return packet.value
             case 0: return packet.subPackets.collect { evalSubPackets(it) }.sum() as long
